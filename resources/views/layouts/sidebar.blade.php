@@ -26,6 +26,18 @@
                 </ul>
               </div>
       </div> 
+
+      <!-- Popular Post -->
+      <div class="card my-4">
+        <h5 class="card-header">Popular Posts</h5>
+        <div>
+          <ul class="list-group list-group-flush">
+            @foreach($popularPosts as $popularPost)
+            <li class="list-group-item"><img src="{{ $post->image_thumb_url }}" width=35% alt=""><a href="{{ route('blog.show', $popularPost->slug)}}">&nbsp;{{ substr($popularPost->title, 0, 20) }} ...<span class="badge badge-pill badge-secondary float-right">{{ $popularPost->view_count }} {{ str_plural('hit', $popularPost->view_count)}}</span></a></li>
+            @endforeach
+          </ul>
+        </div>
+      </div>
       
        <!-- Side Widget -->
       <div class="card my-4">
