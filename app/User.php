@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class User extends Authenticatable
 {
@@ -31,5 +32,23 @@ class User extends Authenticatable
     //Satu user dapat menulis lebih dari satu post. Dihubungkan dengan kolom author_id pada tabel post.
     public function posts(){
     return $this->hasMany(Post::class,'author_id');
+    }
+    
+    public function getRouteKeyName(){
+    return 'slug';
+    }
+    
+    //membuat markdown 
+    public function getBioHtmlAttribute($value){
+    return $this->bio ? Markdown::convertToHtml(e($this->bio)) : NULL;
+    }
+    
+    // membuat gravatar
+    public function gravatar(){
+      $email = $this->email;
+      $default = "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png";
+      $size = 100;
+
+      return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
     }
 }
