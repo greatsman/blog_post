@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Category;
 
 class BlogController extends Controller
 {
@@ -12,7 +13,7 @@ class BlogController extends Controller
  	
  	//menampilkan semua index pada halaman index blog
 	public function index(){
- 
+
 		$posts = Post::with('author')
 				->latestFirst()
 				->published()
@@ -21,9 +22,23 @@ class BlogController extends Controller
 		return view("blog.index", compact('posts'));
 	}
 
+	//menampilkan berdasarkan kategori
+	public function category(Category $category){
+		$categoryName = $category->title;
+
+		$posts = $category->posts()
+						->with('author')
+						->latestFirst()
+						->published()
+						->paginate($this->limit);
+				
+		return view("blog.index", compact('posts','categoryName'));
+	}
+
+
 	//menampilkan postingan blog
 	public function show(Post $post){
 
-	return view("blog.show", compact('post'));
+		return view("blog.show", compact('post'));
 	}
 }
