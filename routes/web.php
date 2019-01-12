@@ -11,15 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('blog.index');
-});
+// Route::get('/', function () {
+//     return view('blog.index');
+// });
  
-Route::get('/blog/show', function(){
-  return view('blog.show');
-});
+// Route::get('/blog/show', function(){
+//   return view('blog.show');
+// });
 
 Route::get('/',[
 	'uses' => 'BlogController@index',
 	'as' => 'blog',
+]);
+
+Route::get('/blog/{posts}',[
+	'uses' => 'BlogController@show',
+	'as' => 'blog.show',
 ]);

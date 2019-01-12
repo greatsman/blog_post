@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use App\Post; //memanggil model post
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,9 +24,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+        route::bind('posts', function($slug){ //Tulisan ‘posts’ didalam method bind() harus sama dengan {posts} yang ada di dalam routes/web.php.
+            return Post::published()->where('slug', $slug)->first();//Published() method digunakan agar pengunjung tidak bisa melihat post yang belum di publish.
+        });
     }
 
     /**

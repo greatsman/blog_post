@@ -15,6 +15,20 @@
  
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/blog-home.css') }}" rel="stylesheet">
+
+    <!-- Agar pada title tidak berubah menjadi biru meskipun itu adalah sebuah url -->
+    <link href="{{ asset('css/blog-home.css') }}" rel="stylesheet">
+
+    <style>
+      a {
+        color: black;
+      }
+
+      a:hover {
+        text-decoration: none;
+        font-size: 105%;
+      }
+    </style>
  
   </head>
  
