@@ -9,46 +9,50 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 class Post extends Model
 {
     protected $dates = ['published_at'];
+    protected $fillable = ['title','slug','excerpt','body','published_at','category_id','image'];
+
     //fungsi untuk mengambil gambar
     public function getImageUrlAttribute($value){
 
-    	$imageUrl = "";
-    	if(!is_null($this->image)){
-    		$imageUrl = $this->image;
-    	}else{
-    		$imageUrl = "";
-    	}
+        $imageUrl = "";
 
-    	return $imageUrl;
+        if(!is_null($this->image)){
+            $directory = config('cms.image.directory');
+            $imagePath = public_path(). "/{$directory}/". $this->image;
+
+            if(file_exists($imagePath)) $imageUrl = asset("{$directory}/" .$this->image);
+        }
+
+        return $imageUrl;
     }
 
     //menguhubungkan dengan model user agar setiap post memiliki penulis
     public function author(){
-	return $this->belongsTo(User::class);
+    	return $this->belongsTo(User::class);
 	}
 
     //menghubungkan post dan category
     public function category(){
-    return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
 	//Ganti data statis menggunakan method diffForHumans yang disediakan oleh Carbon
 	public function getDateAttribute($value){
-    return is_null($this->published_at) ? '' : $this->published_at->diffForHumans();
+        return is_null($this->published_at) ? '' : $this->published_at->diffForHumans();
     }
 
 	// untuk menampilkan post yang terakhir terlebih dahulu.
 	public function scopeLatestFirst($query){
-	return $query->orderBy('created_at', 'desc');
+    	return $query->orderBy('created_at', 'desc');
 	}
 
     //Buat scope published
     public function scopePublished($query){
-    return $query->where("published_at", "<=", Carbon::now());
+        return $query->where("published_at", "<=", Carbon::now());
     }
 
     public function getBodyHtmlAttribute($value){
-    return $this->body ? Markdown::convertToHtml(e($this->body)) : NULL ;
+        return $this->body ? Markdown::convertToHtml(e($this->body)) : NULL ;
     }
 
     public function getExcerptHtmlAttribute($value){
@@ -57,17 +61,19 @@ class Post extends Model
     
     //mengurutkan post dari yang terbanyak
     public function scopePopular($query){
-    return $query->orderBy('view_count', 'desc');
+        return $query->orderBy('view_count', 'desc');
     }
 
     public function getImageThumbUrlAttribute($value){
 
         $imageUrl = "";
+
         if(!is_null($this->image)){
+            $directory = config('cms.image.directory');
             $ext = substr(strrchr($this->image, '.'), 1);
             $thumbnail = str_replace(".{$ext}", "_thumb.{$ext}", $this->image);
-            $imagePath = public_path() . "/img/" . $thumbnail;
-            if(file_exists($imagePath)) $imageUrl = asset("img/" . $thumbnail);
+            $imagePath = public_path() . "/{$directory}/" . $thumbnail;
+            if(file_exists($imagePath)) $imageUrl = asset("{$directory}/" . $thumbnail);
             $imageUrl = $this->image;
         }else{
             $imageUrl = "";
@@ -77,9 +83,9 @@ class Post extends Model
     }
 
     public function formattedDate($showTimes = false){
-    $format = "d/M/Y";
-    if($showTimes) $format=$format." H:i:s";
-    return $this->created_at->format($format);
+        $format = "d/M/Y";
+        if($showTimes) $format=$format." H:i:s";
+        return $this->created_at->format($format);
     }
 
     public function publicationLabel(){
@@ -90,6 +96,10 @@ class Post extends Model
         }else{
             return '<span class="badge badge-success">Published</span>';
         }
+    }
+
+    public function setPublishedAtAttribute($value){
+        $this->attributes['published_at'] = $value ? : NULL;
     }
 
 
