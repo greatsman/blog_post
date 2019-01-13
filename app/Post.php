@@ -76,6 +76,22 @@ class Post extends Model
         return $imageUrl;
     }
 
+    public function formattedDate($showTimes = false){
+    $format = "d/M/Y";
+    if($showTimes) $format=$format." H:i:s";
+    return $this->created_at->format($format);
+    }
+
+    public function publicationLabel(){
+        if(!$this->published_at){
+            return '<span class="badge badge-warning">Draft</span>';
+        }elseif($this->published_at && $this->published_at->isFuture()){
+            return '<span class="badge badge-info">Scheduled</span>';
+        }else{
+            return '<span class="badge badge-success">Published</span>';
+        }
+    }
+
 
 
 }
