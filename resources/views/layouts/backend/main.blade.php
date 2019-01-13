@@ -26,6 +26,11 @@
   <link rel="stylesheet" href="{{ asset('backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Tambahan  -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/simplemde/simplemde.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"> -->
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -90,6 +95,11 @@
 <script src="{{ asset('backend/dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('backend/dist/js/demo.js') }}"></script>
+<!-- Tambahan -->
+<script src="{{ asset('backend/plugins/simplemde/simplemde.min.js') }}"></script>
+<script src="{{ asset('backend/dist/js/demo.js') }}"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script> -->
+<script src="{{ asset('backend/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
 
 @yield('script')
 </body>
