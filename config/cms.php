@@ -1,5 +1,4 @@
 <?php 
-
 return [
 	'image' => [
 		'directory' => 'img',
@@ -8,5 +7,6 @@ return [
 			'height' => 170
 		]
 	],
-	'default_category_id' => 6,
+	'default_category_id' => 7,
+	'default_user_id' => 1,
 ];
