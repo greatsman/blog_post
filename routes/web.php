@@ -44,3 +44,15 @@ Route::get('/home', 'Backend\HomeController@index')->name('home');
 
 // routes untuk Backend\BlogController
 Route::resource('/backend/blog', 'Backend\BlogController',['as'=>'backend']);
+
+//routes untuk mengembalikan file yang sudah ada ditempat sampah
+Route::put('/backend/blog/restore/{blog}',[
+	'uses' 	=> 'Backend\BlogController@restore',
+	'as' 	=> 'backend.blog.restore',
+]);
+
+//routes untuk destroy
+Route::delete('/backend/blog/force-destroy/{blog}',[
+	'uses' 	=> 'Backend\BlogController@forceDestroy',
+	'as' 	=> 'backend.blog.force-destroy',
+]);
