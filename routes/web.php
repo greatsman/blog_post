@@ -56,3 +56,6 @@ Route::delete('/backend/blog/force-destroy/{blog}',[
 	'uses' 	=> 'Backend\BlogController@forceDestroy',
 	'as' 	=> 'backend.blog.force-destroy',
 ]);
+
+// route untu category
+Route::resource('/backend/category', 'Backend\CategoryController',['as'=>'backend']);
