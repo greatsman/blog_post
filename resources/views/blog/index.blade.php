@@ -28,6 +28,12 @@
           </div>
         @endif
 
+      @if($term = request('term'))
+        <div class="alert alert-info">
+          <p>Search Results For: <strong>{{ $term }}</strong></p>
+        </div>
+      @endif
+
         @foreach($posts as $post)
 
         <!-- Blog Post -->
@@ -50,8 +56,9 @@
       @endif
 
       <!-- Pagination -->
+      <!-- Pagination -->
       <ul class="pagination justify-content-center mb-4">
-        {{ $posts->links() }}
+        {{ $posts->appends(request()->only(['term']))->links() }}
       </ul>
 
     </div>

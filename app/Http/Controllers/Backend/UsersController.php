@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\User;
-
 class UsersController extends BackendController
 {
     /**
@@ -37,7 +35,8 @@ class UsersController extends BackendController
      */
     public function store(Requests\UserStoreRequest $request)
     {
-        User::create($request->all());
+        $user = User::create($request->all());
+        $user->attachRole($request->role);
         return redirect("/backend/user")->with('message', 'A New User has been added');
     }
     /**
@@ -70,7 +69,10 @@ class UsersController extends BackendController
      */
     public function update(Requests\UserUpdateRequest $request, $id)
     {
-        User::findOrFail($id)->update($request->all());
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->detachRoles();
+        $user->attachRole($request->role);
         return redirect("/backend/user")->with('message', 'The User has been updated');
     }
     /**
@@ -93,7 +95,6 @@ class UsersController extends BackendController
         $user->delete();
         return redirect("/backend/user")->with('message', 'The User has been deleted');
     }
-    
     public function confirm(Requests\UserDestroyRequest $request, $id)
     {
         $user = User::findOrFail($id);

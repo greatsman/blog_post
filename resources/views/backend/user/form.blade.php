@@ -1,4 +1,4 @@
-  <div class="card">
+<div class="card">
     <!-- /.card-header -->
     <div class="card-header">
       <h3 class="card-title">Add New User</h3>
@@ -45,6 +45,19 @@
       {!! Form::password('password_confirmation', ['class'=>'form-control']) !!}
       @if($errors->has('password_confirmation'))
         <span class="badge badge-danger">{{ $errors->first('password_confirmation') }}</span>
+      @endif
+    </div>
+
+    <div class="form-group {{ $errors->has('role') ? 'has-error' : ''}}">
+      {!! Form::label('role') !!}
+      @if($user->exists && $user->id == config('cms.default_user_id'))
+        {!! Form::hidden('role',$user->roles->first()->id) !!}
+        <p class="form-control-static">{{ $user->roles->first()->display_name }}</p>
+      @else
+      {!! Form::select('role',App\Role::pluck('display_name','id'), $user->exists ? $user->roles->first()->id : null, ['class'=>'form-control','placeholder' => 'Choose a Role']) !!}
+      @endif
+      @if($errors->has('role'))
+        <span class="badge badge-danger">{{ $errors->first('role') }}</span>
       @endif
     </div>
 

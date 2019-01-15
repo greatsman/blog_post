@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
-
 class UserUpdateRequest extends FormRequest
 {
     /**
@@ -15,7 +12,6 @@ class UserUpdateRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,7 +22,8 @@ class UserUpdateRequest extends FormRequest
         return [
             'name'      => 'required',
             'email'     => 'email|required|unique:users,email,' .$this->route('user'),
-            'password'  => 'required_with:password_confirmation|confirmed'
+            'password'  => 'required_with:password_confirmation|confirmed',
+            'role'      => 'required'
         ];
     }
 }
